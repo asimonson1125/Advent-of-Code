@@ -1,17 +1,21 @@
 use std::io::Read;
+use std::env;
 
-fn main() {
-    let mut fileRef = std::fs::File::open("input.txt").unwrap();
+pub fn run() {
+    println!("{:?}",env::current_dir().unwrap());
+    let mut file_ref = std::fs::File::open("./src/day2/input.txt").unwrap();
     let mut data = String::new();
 
-    fileRef.read_to_string(&mut data).unwrap();
-    pt2(data);
+    file_ref.read_to_string(&mut data).unwrap();
+    pt1(&data);
+    println!();
+    pt2(&data);
 }
 
-fn pt1(data : String){
+fn pt1(data : &String){
     let mut forward = 0;
     let mut depth = 0;
-    let mut split = data.split("\n");
+    let split = data.split("\n");
     for i in split {
         if 1 > i.len() {
             break;
@@ -31,14 +35,15 @@ fn pt1(data : String){
             }
         }
     }
-    println!("{}", forward * depth)
+    println!("Forward = {}, depth = {}", forward, depth);
+    println!("forward * depth = {}", forward * depth);
 }
 
-fn pt2(data : String){
+fn pt2(data : &String){
     let mut forward = 0;
     let mut depth = 0;
     let mut aim = 0;
-    let mut split = data.split("\n");
+    let split = data.split("\n");
     for i in split {
         if 1 > i.len() {
             break;
@@ -59,5 +64,6 @@ fn pt2(data : String){
             }
         }
     }
-    println!("{}", forward * depth)
+    println!("forward = {}, depth = {}, aim = {}", forward, depth, aim);
+    println!("forward * depth = {}", forward * depth);
 }
