@@ -1,8 +1,6 @@
 use std::io::Read;
-use std::env;
 
 pub fn run() {
-    println!("{:?}",env::current_dir().unwrap());
     let mut file_ref = std::fs::File::open("./src/day4/input.txt").unwrap();
     let mut data = String::new();
 
@@ -34,12 +32,11 @@ pub fn run() {
 fn pt2(boards: &[[[i32; 5]; 5]; 100], nums: &std::str::Split<&str>) -> i32{
     let iter: std::str::Split<&str> = nums.clone();
     let mut called: Vec<i32> = vec![-1];
-    let mut boards_clone: Vec<[[i32; 5]; 5]> = boards.clone().to_vec();
+    let boards_clone: Vec<[[i32; 5]; 5]> = boards.clone().to_vec();
     let mut won: Vec<i32> = vec![];
     for num in iter{
         called.push(num.parse().unwrap());
-        let mut cur_boards_clone = boards_clone.clone();
-        let mut counter = 0;
+        let cur_boards_clone = boards_clone.clone();
         for boardid in 0..cur_boards_clone.len(){
             let mut run = true;
             let bid = &(boardid as i32);
@@ -48,8 +45,7 @@ fn pt2(boards: &[[[i32; 5]; 5]; 100], nums: &std::str::Split<&str>) -> i32{
                     run = false;
                 }
             }
-            if(run){
-                counter += 1;
+            if run{
                 let board = boards[boardid];
                 for x in 0..5{
                     let mut matches = true;
@@ -66,7 +62,7 @@ fn pt2(boards: &[[[i32; 5]; 5]; 100], nums: &std::str::Split<&str>) -> i32{
                                 ignore = true;
                             }
                         }
-                        if(!ignore){
+                        if!ignore{
                             won.push(boardid as i32);
                         }
                     }
@@ -86,14 +82,14 @@ fn pt2(boards: &[[[i32; 5]; 5]; 100], nums: &std::str::Split<&str>) -> i32{
                                 ignore = true;
                             }
                         }
-                        if(!ignore){
+                        if!ignore{
                             won.push(boardid as i32);
                         }
                     }
                 }
             }
         }
-        if(won.len() == 100){
+        if won.len() == 100 {
             return score(&boards[won[99] as usize], &called);
         }
     }
@@ -144,5 +140,5 @@ fn score(board: &[[i32; 5]; 5], nums: &Vec<i32>) -> i32{
             }
         }
     }
-    return (sum * nums[nums.len()-1] as i32).try_into().unwrap();
+    return sum * nums[nums.len()-1] as i32;
 }
